@@ -12,38 +12,19 @@ namespace crypto {
 class hmac_ctx_wrapper_t {
 public:
     hmac_ctx_wrapper_t() {
-#if OPENSSL_VERSION_NUMBER < 0x10100000L
         HMAC_CTX_init(&m_hmac_ctx);
-#else
-        m_hmac_ctx = HMAC_CTX_new();
-        if (m_hmac_ctx == nullptr) {
-            throw openssl_error_t(ERR_get_error());
-        }
-#endif
     }
 
     ~hmac_ctx_wrapper_t() {
-#if OPENSSL_VERSION_NUMBER < 0x10100000L
         HMAC_CTX_cleanup(&m_hmac_ctx);
-#else
-        HMAC_CTX_free(m_hmac_ctx);
-#endif
     }
 
     HMAC_CTX *get() {
-#if OPENSSL_VERSION_NUMBER < 0x10100000L
         return &m_hmac_ctx;
-#else
-        return m_hmac_ctx;
-#endif
     }
 
 private:
-#if OPENSSL_VERSION_NUMBER < 0x10100000L
     HMAC_CTX m_hmac_ctx;
-#else
-    HMAC_CTX *m_hmac_ctx;
-#endif
 };
 
 std::array<unsigned char, SHA256_DIGEST_LENGTH> detail::hmac_sha256(

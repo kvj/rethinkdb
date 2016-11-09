@@ -7,8 +7,6 @@
 
 #include "crypto/error.hpp"
 
-#define OPENSSL_VERSION_NUMBER 0x10000000L
-
 namespace crypto {
 
 class hmac_ctx_wrapper_t {
